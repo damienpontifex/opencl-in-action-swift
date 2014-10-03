@@ -42,15 +42,13 @@ dispatch_sync(queue) {
 	var vec_buff = gcl_malloc(UInt(sizeof(cl_float) * 4), &vec, cl_malloc_flags(CL_MEM_COPY_HOST_PTR | CL_MEM_READ_ONLY))
 	var res_buff = gcl_malloc(UInt(sizeof(cl_float) * 4), nil, cl_malloc_flags(CL_MEM_WRITE_ONLY))
 	
-	var resC = UnsafeMutablePointer<cl_float>(COpaquePointer(res_buff))
+	var resC = UnsafeMutablePointer<cl_float>(res_buff)
 	var matPointer = COpaquePointer(mat_buff)
 	var vecPointer = COpaquePointer(vec_buff)
-	
-	var ndRangePointer = withUnsafePointer(&ndRange, { (unsafePointer) -> UnsafePointer<cl_ndrange> in
-		return unsafePointer
-	})
 
-	matvec_mult_kernel(ndRangePointer, matPointer, vecPointer, resC)
+	withUnsafePointer(&ndRange) { ndRangePointer in
+		matvec_mult_kernel(ndRangePointer, matPointer, vecPointer, resC)
+	}
 	
 	gcl_memcpy(&result, res_buff, UInt(sizeof(cl_float) * 4))
 	
