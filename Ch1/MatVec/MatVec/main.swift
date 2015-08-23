@@ -16,10 +16,10 @@ var correct = [cl_float](count: 4, repeatedValue: 0.0)
 
 /* Initialize data to be processed by the kernel */
 for i in 0..<16 {
-	mat[i] = Float(i) * 2.0;
+	mat[i] = cl_float(i) * 2.0;
 }
 for i in 0..<4 {
-	vec[i] = Float(i) * 3.0;
+	vec[i] = cl_float(i) * 3.0;
 	correct[0] += mat[i]    * vec[i];
 	correct[1] += mat[i+4]  * vec[i];
 	correct[2] += mat[i+8]  * vec[i];
@@ -46,18 +46,15 @@ dispatch_sync(queue) {
 	var matPointer = UnsafeMutablePointer<cl_float4>(mat_buff)
 	var vecPointer = UnsafeMutablePointer<cl_float4>(vec_buff)
 
-	withUnsafePointer(&ndRange) { ndRangePointer -> Void in
-		matvec_mult_kernel(ndRangePointer, matPointer, vecPointer, resC)
+	withUnsafePointer(&ndRange) {
+		matvec_mult_kernel($0, matPointer, vecPointer, resC)
 	}
 	
-	withUnsafeMutablePointer(&result) {
-		gcl_memcpy($0, res_buff, sizeof(cl_float) * 4)
-	}
+	gcl_memcpy(&result, res_buff, sizeof(cl_float) * 4)
 	
 	/* Test the result */
-	if((result[0] == correct[0]) && (result[1] == correct[1])
-		&& (result[2] == correct[2]) && (result[3] == correct[3])) {
-			println("Matrix-vector multiplication successful")
+	if(result == correct) {
+		println("Matrix-vector multiplication successful")
 	}
 	else {
 		println("Matrix-vector multiplication unsuccessful")
