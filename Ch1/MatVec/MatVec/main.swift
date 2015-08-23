@@ -27,7 +27,7 @@ for i in 0..<4 {
 }
 
 let context = gcl_get_context()
-let queue = gcl_create_dispatch_queue(cl_queue_flags(CL_DEVICE_TYPE_GPU), nil)
+let queue = gcl_create_dispatch_queue(cl_queue_flags(CL_DEVICE_TYPE_CPU), nil)
 
 dispatch_sync(queue) {
 
@@ -38,19 +38,21 @@ dispatch_sync(queue) {
 		local_work_size: (0, 0, 0)
 	)
 	
-	var mat_buff = gcl_malloc(UInt(sizeof(cl_float) * 16), &mat, cl_malloc_flags(CL_MEM_COPY_HOST_PTR | CL_MEM_READ_ONLY))
-	var vec_buff = gcl_malloc(UInt(sizeof(cl_float) * 4), &vec, cl_malloc_flags(CL_MEM_COPY_HOST_PTR | CL_MEM_READ_ONLY))
-	var res_buff = gcl_malloc(UInt(sizeof(cl_float) * 4), nil, cl_malloc_flags(CL_MEM_WRITE_ONLY))
+	var mat_buff = gcl_malloc(sizeof(cl_float) * 16, &mat, cl_malloc_flags(CL_MEM_COPY_HOST_PTR | CL_MEM_READ_ONLY))
+	var vec_buff = gcl_malloc(sizeof(cl_float) * 4, &vec, cl_malloc_flags(CL_MEM_COPY_HOST_PTR | CL_MEM_READ_ONLY))
+	var res_buff = gcl_malloc(sizeof(cl_float) * 4, nil, cl_malloc_flags(CL_MEM_WRITE_ONLY))
 	
 	var resC = UnsafeMutablePointer<cl_float>(res_buff)
-	var matPointer = COpaquePointer(mat_buff)
-	var vecPointer = COpaquePointer(vec_buff)
+	var matPointer = UnsafeMutablePointer<cl_float4>(mat_buff)
+	var vecPointer = UnsafeMutablePointer<cl_float4>(vec_buff)
 
-	withUnsafePointer(&ndRange) { ndRangePointer in
+	withUnsafePointer(&ndRange) { ndRangePointer -> Void in
 		matvec_mult_kernel(ndRangePointer, matPointer, vecPointer, resC)
 	}
 	
-	gcl_memcpy(&result, res_buff, UInt(sizeof(cl_float) * 4))
+	withUnsafeMutablePointer(&result) {
+		gcl_memcpy($0, res_buff, sizeof(cl_float) * 4)
+	}
 	
 	/* Test the result */
 	if((result[0] == correct[0]) && (result[1] == correct[1])
