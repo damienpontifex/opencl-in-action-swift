@@ -93,7 +93,9 @@
 		F3584B4819D81124003D0DAD /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastSwiftMigration = 0700;
+				LastSwiftUpdateCheck = 0700;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Damien Pontifex";
 				TargetAttributes = {
 					F3584B4F19D81124003D0DAD = {
@@ -150,6 +152,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -209,6 +212,7 @@
 		F3584B5819D81124003D0DAD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				OPENCL_COMPILER_VERSION = CL1.2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "MatVec/Bridging-Header.h";
 			};
@@ -217,6 +221,7 @@
 		F3584B5919D81124003D0DAD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				OPENCL_COMPILER_VERSION = CL1.2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "MatVec/Bridging-Header.h";
 			};
@@ -241,6 +246,7 @@
 				F3584B5919D81124003D0DAD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -24,14 +24,14 @@ func getNumericalInfo(deviceId: cl_device_id, deviceInfo: Int32) -> cl_uint {
 	return value
 }
 
-let queue = gcl_create_dispatch_queue(cl_queue_flags(CL_DEVICE_TYPE_GPU), nil)
+let queue = gcl_create_dispatch_queue(cl_queue_flags(CL_DEVICE_TYPE_GPU), nil)!
 
 let deviceId = gcl_get_device_id_with_dispatch_queue(queue)
 
-let deviceName = getStringInfo(deviceId, CL_DEVICE_NAME)
-let addressData = getNumericalInfo(deviceId, CL_DEVICE_ADDRESS_BITS)
-let extData = getStringInfo(deviceId, CL_DEVICE_EXTENSIONS)
+let deviceName = getStringInfo(deviceId, deviceInfo: CL_DEVICE_NAME)
+let addressData = getNumericalInfo(deviceId, deviceInfo: CL_DEVICE_ADDRESS_BITS)
+let extData = getStringInfo(deviceId, deviceInfo: CL_DEVICE_EXTENSIONS)
 
-println("Name: \(deviceName)")
-println("Address Width: \(addressData)")
-println("Extensions: \(extData)")
+print("Name: \(deviceName)")
+print("Address Width: \(addressData)")
+print("Extensions: \(extData)")

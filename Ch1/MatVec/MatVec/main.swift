@@ -27,7 +27,7 @@ for i in 0..<4 {
 }
 
 let context = gcl_get_context()
-let queue = gcl_create_dispatch_queue(cl_queue_flags(CL_DEVICE_TYPE_CPU), nil)
+let queue = gcl_create_dispatch_queue(cl_queue_flags(CL_DEVICE_TYPE_CPU), nil)!
 
 dispatch_sync(queue) {
 
@@ -54,10 +54,10 @@ dispatch_sync(queue) {
 	
 	/* Test the result */
 	if(result == correct) {
-		println("Matrix-vector multiplication successful")
+		print("Matrix-vector multiplication successful")
 	}
 	else {
-		println("Matrix-vector multiplication unsuccessful")
+		print("Matrix-vector multiplication unsuccessful")
 	}
 
 	gcl_free(mat_buff)
