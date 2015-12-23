@@ -25,16 +25,16 @@ withUnsafeMutablePointer(&platform) {
 }
 
 // Access the first available device
-withUnsafeMutablePointer(&device) {
-	err = clGetDeviceIDs(platform, cl_device_type(CL_DEVICE_TYPE_GPU), 1, $0, nil)
-	if (err == CL_DEVICE_NOT_FOUND) {
-		err = clGetDeviceIDs(platform, cl_device_type(CL_DEVICE_TYPE_CPU), 1, $0, nil)
-	}
-	if (err != CL_SUCCESS) {
-		print("Couldn't find any devices")
-		exit(1)
-	}
+var queue = gcl_create_dispatch_queue(cl_queue_flags(CL_DEVICE_TYPE_GPU), nil)
+if (queue == nil) {
+	queue = gcl_create_dispatch_queue(cl_queue_flags(CL_DEVICE_TYPE_CPU), nil)
 }
+guard let queue = queue else {
+	print("Couldn't find any devices")
+	exit(1)
+}
+
+device = gcl_get_device_id_with_dispatch_queue(queue)
 
 // Create the context
 context = clCreateContext(nil, 1, &device, nil, nil, &err)
