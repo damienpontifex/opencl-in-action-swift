@@ -5,3 +5,5 @@ Matthew Scarpino's Book, *OpenCL in Action: How to accelerate graphics and compu
 I am developing and learning OpenCL on the Mac platform, and so am reimplementing the code from each chapter utilising Xcodes built in frameworks to make host development easier.
 
 Controlling OpenCL on the host became a lot easier with [Interoperation with Grand Central Dispatch](https://developer.apple.com/library/mac/documentation/Performance/Conceptual/OpenCL_MacProgGuide/SynchronizingCLandGL/SynchronizingCLandGL.html#//apple_ref/doc/uid/TP40008312-CH18-SW1). Thus I am using as simplified development as possible while using Swift on the host
+
+Inspired by the C++ OpenCL wrapper I also created a Swift wrapper to simplify development located at [damienpontifex/SwiftOpenCL](https://github.com/damienpontifex/SwiftOpenCL) and have used that at later times with the Swift Package Manager.
