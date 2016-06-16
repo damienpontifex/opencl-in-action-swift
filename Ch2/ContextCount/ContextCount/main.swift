@@ -8,8 +8,8 @@
 
 import OpenCL
 
-var platform: cl_platform_id = COpaquePointer(nilLiteral: ())
-var device: cl_device_id = COpaquePointer(nilLiteral: ())
+var platform: cl_platform_id?
+var device: cl_device_id?
 var context: cl_context
 var err: cl_int = CL_SUCCESS
 var refCount: cl_uint = 0
