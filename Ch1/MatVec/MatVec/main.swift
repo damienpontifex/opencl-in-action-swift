@@ -27,7 +27,7 @@ for i in 0..<4 {
 }
 
 let context = gcl_get_context()
-let queue = gcl_create_dispatch_queue(cl_queue_flags(CL_DEVICE_TYPE_CPU), nil)!
+let queue = gcl_create_dispatch_queue(cl_queue_flags(CL_DEVICE_TYPE_GPU), nil)!
 
 queue.sync {
 
@@ -38,9 +38,9 @@ queue.sync {
 		local_work_size: (0, 0, 0)
 	)
 	
-    guard var mat_buff = gcl_malloc(sizeof(cl_float) * 16, &mat, cl_malloc_flags(CL_MEM_COPY_HOST_PTR | CL_MEM_READ_ONLY)),
-        var vec_buff = gcl_malloc(sizeof(cl_float) * 4, &vec, cl_malloc_flags(CL_MEM_COPY_HOST_PTR | CL_MEM_READ_ONLY)),
-        var res_buff = gcl_malloc(sizeof(cl_float) * 4, nil, cl_malloc_flags(CL_MEM_WRITE_ONLY)) else {
+    guard var mat_buff = gcl_malloc(sizeof(cl_float.self) * 16, &mat, cl_malloc_flags(CL_MEM_COPY_HOST_PTR | CL_MEM_READ_ONLY)),
+        var vec_buff = gcl_malloc(sizeof(cl_float.self) * 4, &vec, cl_malloc_flags(CL_MEM_COPY_HOST_PTR | CL_MEM_READ_ONLY)),
+        var res_buff = gcl_malloc(sizeof(cl_float.self) * 4, nil, cl_malloc_flags(CL_MEM_WRITE_ONLY)) else {
             exit(1)
     }
 	
@@ -52,7 +52,7 @@ queue.sync {
 		matvec_mult_kernel($0, matPointer, vecPointer, resC)
 	}
 	
-	gcl_memcpy(&result, res_buff, sizeof(cl_float) * 4)
+	gcl_memcpy(&result, res_buff, sizeof(cl_float.self) * 4)
 	
 	/* Test the result */
 	if(result == correct) {

@@ -20,7 +20,7 @@ func getStringInfo(_ deviceId: cl_device_id, deviceInfo: Int32) -> String {
 
 func getNumericalInfo(_ deviceId: cl_device_id, deviceInfo: Int32) -> cl_uint {
 	var value = cl_uint(0)
-	clGetDeviceInfo(deviceId, cl_device_info(deviceInfo), sizeof(cl_uint), &value, nil)
+	clGetDeviceInfo(deviceId, cl_device_info(deviceInfo), sizeof(cl_uint.self), &value, nil)
 	return value
 }
 
